@@ -1,10 +1,9 @@
 from random import *
-print(chr(27) + "[2J")
-greetings = ["Hello", "Hi", "Hey", "Yo"]
+from functions import *
 
-def greet(user):
-    randomGreet = choice(greetings)
-    return randomGreet
+
+print(chr(27) + "[2J")
+
 
 user = input("Welcome to chatbot! How may I help you?\n>>> ")
 user = user.capitalize()
