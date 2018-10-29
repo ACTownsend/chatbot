@@ -5,14 +5,14 @@ from functions import *
 print(chr(27) + "[2J")
 
 
-user = input("Welcome to chatbot! How may I help you?\n>>> ")
+user = input(" Bot: Welcome to chatbot! How may I help you?\n User: ")
 user = user.capitalize()
 
 if user in greetings:
-    resp = greet(user)
-    print(resp + "! What can I do for you?\n>>> ")
+    resp = greet()
+    print(" Bot: " + resp + "! What can I do for you?\n ")
 else:
-    print("Sorry I didn't quite catch that\n")
+    print(" Bot: Sorry I didn't quite catch that\n")
 
 
     
