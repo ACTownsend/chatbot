@@ -1,6 +1,6 @@
 from random import *
-greetings = ["Hello", "Hi", "Hey", "Yo"]
+greetings = ["hello", "hi", "hey", "yo"]
 
-def greet():
-    randomGreet = choice(greetings)
+def greet(user):
+    randomGreet = choice(greetings).capitalize()
     return randomGreet
