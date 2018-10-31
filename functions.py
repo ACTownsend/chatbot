@@ -1,5 +1,6 @@
 from random import *
 import webbrowser
+import requests
 
 greetings = ["hello", "hi", "hey", "yo"]
 farewell = ["goodbye", "cya later", "bye", "cya", "later"]
@@ -22,3 +23,16 @@ def googleSearch():
     return searchterm
     
     
+def weather():
+      
+    city =  input("Enter the name of your city : ")
+
+    api_address = 'https://api.openweathermap.org/data/2.5/weather?q={}&appid=a283f94f4370e92593315243cecd791b'.format(city)       
+    url = api_address
+    json_data = requests.get(url).json()
+    formatted_data = json_data['weather'][0]['description']
+    temp = json_data['main']['temp']
+    tempc = temp -273.15
+    print('Today is expected in  '+ city + ' ' + formatted_data)
+    print('The temperature is ',round(tempc,2),'°C')
+    return tempc
