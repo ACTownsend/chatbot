@@ -1,10 +1,13 @@
 from random import *
 import webbrowser
 import requests
+import pycountry
+import pytz
 
 greetings = ["hello", "hi", "hey", "yo"]
 farewell = ["goodbye", "cya later", "bye", "cya", "later"]
 browser = ["google", "search"]
+clock = ["time", "hours", "clock","timezone"]
 
 def greet(user):
     randomGreet = choice(greetings).capitalize()
@@ -36,3 +39,18 @@ def weather():
     print('Today is expected in  '+ city + ' ' + formatted_data)
     print('The temperature is ',round(tempc,2),'°C')
     return tempc
+
+def checkTimeZone():
+	
+		search = input("Bot: Enter a country name and I'll tell you the time in that country\n User:")
+		try:
+				countinfo = pycountry.countries.get(name=search.title())
+				countcode = countinfo.alpha_2
+				countzone = pytz.country_timezones(countcode)
+		except:
+				print("Bot: Sorry, I don't recognise the name of that country")
+		else:
+				timereq = requests.get("http://api.timezonedb.com/v2.1/get-time-zone?key=A56Y2B25QKH8&format=json&by=zone&zone={}".format(countzone[0])).json()
+				timegot = timereq["formatted"]
+				print("Bot: The current time in {a} is {b}".format(a=search.title(),b=timegot[11:16]))
+				
