@@ -2,9 +2,6 @@ from random import *
 from functions import *
 
 
-print(chr(27) + "[2J")
-
-
 user = input(" Bot: Welcome to chatbot! How may I help you?\n User: ")
 user = user.lower()
 exit = False
@@ -29,8 +26,12 @@ while exit == False:
             if i == j:
                 googleSearch()
                 ran = should 
-                user = input(" Bot: Anything else I can help you with?\n User: ")
-                
+                user = input(" Bot: Anything else I can help you with?\n User: ")								
+        for j in clock:
+            if i == j:
+                checkTimeZone()
+                ran = should
+                user = input(" Bot: Anything else I can help you with?\n User: ")               
     if ran != should:
         user = input(" Bot: Sorry, I didnt quite catch that\n User: ")
 
