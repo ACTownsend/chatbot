@@ -52,14 +52,14 @@ async def on_message(message):
     #    temp = message.split("movie", 1)[1]
     #    await client.send_message(message.channel, movies.movie(temp))
     if message.content.startswith(prefix+'coinflip'):   #50/50 chance
-        random_number = random.randint(1, 100)
-        if random_number >= 50:
-            text = 'It comes up tails'
+        number = random.randint(1, 100)
+        if number >= 50:
+            msg = 'It comes up tails'
         else:
-            text = 'It comes up heads'
+            msg = 'It comes up heads'
         header = 'Bot has flipped a coin...'
         embed = discord.Embed()
-        embed.add_field(name=header, value=text, inline=True)
+        embed.add_field(name=header, value=msg, inline=True)
         await client.send_message(message.channel, embed=embed)
 @client.event
 async def on_ready():
