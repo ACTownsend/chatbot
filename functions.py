@@ -4,23 +4,31 @@ import pycountry
 import pytz
 from google import google
 import smtplib
+import datetime
+import os
+import time
 
-greetings = ["hello", "hi", "hey", "yo"]
-farewell = ["goodbye", "cya later", "bye", "cya", "later"]
-browser = ["google", "search"]
-clock = ["time", "hours", "clock","timezone"]
-rollDice = ["roll", "dice", "die"]
+greetList = ["hello", "hi", "hey", "yo"]
+byeList = ["goodbye", "cya later", "bye", "cya", "later"]
+browserList = ["google", "search"]
+timeList = ["time", "hours", "clock","timezone"]
+dieList = ["roll", "dice", "die"]
 weatherList = ["weather", "hot", "temperature"]
 emailList = ["email", "send"]
 coinList = ["coin", "heads", "tails"]
+shopList = ["shopping", "list"]
+featureList = ["info", "help", "features"]
 
 def greet(user):
-    randomGreet = choice(greetings).capitalize()
+    randomGreet = choice(greetList).capitalize()
+    print(" Bot: " + randomGreet + "!")
     return randomGreet
 
 def endFunction(user):
-    randomBye = choice(farewell).capitalize()
-    return randomBye
+    randomBye = choice(byeList).capitalize()
+    print(" Bot: " + randomBye + "!") 
+    exit = True
+    return exit
 
 def googleSearch(custom, after):
     if after == False:       
@@ -130,4 +138,90 @@ def coin(userGuess):
     else:
         print(" Bot: You guessed incorrectly! The coin landed " + side + " side up")
     return side
+
+def shoppingList():
+    file = open( "shoppinglist.txt", "w")
+    file.write("    Your Shopping List : " + "\n    ")
+
+    n = int(input(" Bot: How many items would you like to add to your shopping list?\n User: "))
+
+    i=0
+
+    # loop to write the number of items that the user needs
+
+    for i in range(n):
+
+        content = str(input(" Bot: Please enter item " + str(i+1) + " to add to your shopping list\n User: "))
+
+        file.write(content + "\n    ")
+
+        if i == n :
+            break
+
+    print("")        
+    file = open( "shoppinglist.txt", "r")
+    print (file.read())
+    
+def listOfFeatures():
+    features = ["Perform Google searches","Set alarms","Tell you the time in a specified country","Tell you the weather in a specified country","Create a shopping list","Flip a coin","Roll a die","Send an email"]
+    print(" Bot: I can do thing such as: \n")
+    for i in features:
+        print("       "  +  str(features.index(i)+1) + ": " + i + "\n")
+    response = input(" Bot: Would you like to know how to trigger any of these functions?\n User: ")
+    while response.lower()  != "no":
+        moreHelp = int(input(" Bot: Which feature would you like to know about? (Enter the number) \n User: "))
+        choices = {1:str(browserList), 2:"alarm", 3:str(timeList), 4:str(weatherList), 5:str(shopList), 6:str(coinList), 7:str(dieList), 8:str(emailList)}
+        print(" Bot: Words like " + choices[moreHelp] + " will let you " + features[moreHelp-1] )
+        response = input(" Bot: would you like to know how to trigger any other functions?\n User: ")
+        
+def alarm():
+    def check_alarm_input(alarm_time):
+        if len(alarm_time) == 1:
+            if alarm_time[0] < 24 and alarm_time[0] >= 0:
+                return True
+        if len(alarm_time) == 2:
+            if alarm_time[0] < 24 and alarm_time[0] >= 0 and alarm_time[1] < 60 and alarm_time[1] >= 0:
+                return True
+        elif len(alarm_time) == 3:
+            if alarm_time[0] < 24 and alarm_time[0] >= 0 and alarm_time[1] < 60 and alarm_time[1] >= 0 and alarm_time[2] < 60 and alarm_time[2] >= 0:
+                return True
+        return False
+ 
+    note = str(input(" Bot: What note do you want to leave when the alarm goes off?\n User: " ))
+    print(" Bot: Set a time for the alarm (Ex. 06:30 or 18:30:00)")
+    while True:
+        alarm_input = input(" Bot: Enter a time that you would like to set an alarm for\n User: ")
+ 
+        try:
+          alarm_time = [int(n) for n in alarm_input.split(":")]
+          if check_alarm_input(alarm_time):
+            break
+          else:
+            raise ValueError
+        except ValueError:
+          print(" Bot: !ERROR! Enter time in HH:MM or HH:MM:SS format")
+ 
+    seconds_hms = [3600, 60, 1]
+    alarm_seconds = sum([a*b for a,b in zip(seconds_hms[:len(alarm_time)], alarm_time)])
+ 
+    now = datetime.datetime.now()
+    current_time_seconds = sum([a*b for a,b in zip(seconds_hms, [now.hour, now.minute, now.second])])
+ 
+    time_diff_seconds = alarm_seconds - current_time_seconds
+ 
+    if time_diff_seconds < 0:
+        time_diff_seconds += 86400
+ 
+    print(" Bot: Alarm set to go off in %s" % datetime.timedelta(seconds=time_diff_seconds))
+ 
+ 
+    time.sleep(time_diff_seconds)
+ 
+ 
+    print("\n     " + note +"\n")
+      
+   
+        
+
+    
     
