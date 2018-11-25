@@ -12,16 +12,13 @@ while exit == False:
     should += 1
     split = user.split(" ")    
     for i in split:
-        if i in greetings:
-            resp = greet(user)
-            print(" Bot: " + resp + "!")
+        if i in greetList:
             ran = should
-        elif i in farewell:
-            resp = endFunction(user)
-            print(" Bot: " + resp + "!") 
-            exit = True
+            greet(user)
+        elif i in byeList:
             ran = should
-        elif i in browser:
+            exit = endFunction(user)           
+        elif i in browserList:
             ran = should 
             if i != split[-1]:
                 after = True
@@ -31,13 +28,13 @@ while exit == False:
                 googleSearch(term,after)
             else:
                 googleSearch(0,after)								
-        elif i in clock:
-            checkTimeZone()
+        elif i in timeList:
             ran = should
+            checkTimeZone()            
         elif i in weatherList:
-            weather()
             ran = should
-        elif i in rollDice:
+            weather()            
+        elif i in dieList:
             ran = should 
             if "d" in user:
                 dice = user.index("d")
@@ -60,9 +57,27 @@ while exit == False:
             guess = input(" Bot: Heads or Tails?\n User: ")
             guess = guess.capitalize()
             coin(guess) 
+        elif i in shopList:
+            ran = should
+            shoppingList()
+        elif i in featureList:
+            ran = should
+            listOfFeatures()
+        elif i == "alarm":
+            ran = should
+            alarm()
+        if ran == should:
+            break
     if exit == False:
         if ran != should:
             print(" Bot: Sorry, I didnt quite catch that!")
-        user = input(" User: ")
+        user = input(" Bot: Anything else I can help you with?\n User: ")
     else:
         break
+
+
+
+
+    
+
+    
