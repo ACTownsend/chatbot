@@ -163,16 +163,64 @@ def shoppingList():
     print (file.read())
     
 def listOfFeatures():
-    features = ["Perform Google searches","Set alarms","Tell you the time in a specified country","Tell you the weather in a specified country","Create a shopping list","Flip a coin","Roll a die","Send an email"]
-    print(" Bot: I can do thing such as: \n")
-    for i in features:
-        print("       "  +  str(features.index(i)+1) + ": " + i + "\n")
-    response = input(" Bot: Would you like to know how to trigger any of these functions?\n User: ")
-    while response.lower()  != "no":
-        moreHelp = int(input(" Bot: Which feature would you like to know about? (Enter the number) \n User: "))
-        choices = {1:str(browserList), 2:"alarm", 3:str(timeList), 4:str(weatherList), 5:str(shopList), 6:str(coinList), 7:str(dieList), 8:str(emailList)}
-        print(" Bot: Words like " + choices[moreHelp] + " will let you " + features[moreHelp-1] )
-        response = input(" Bot: would you like to know how to trigger any other functions?\n User: ")
+     options = ['features','go back']
+    features = ['timezone','web browser','alarms','weather','go back']
+ 
+    print('Bot: What can I help you with?')
+    for i in options:
+        print(i)
+   
+    while True:
+        answer = input('\nUser: ').lower()
+        answered1 = False
+       
+        if answer == 'features':
+            answered1 = True
+            print('\nBot: Which feature can I tell you more about?\n')
+            for i in features:
+                print(i)
+               
+            while True:
+                answer = input('\nUser: ').lower()
+                answered2 = False
+               
+                if answer == 'timezone':
+                    answered2 = True
+                    print('\nBot: Give me a country name and I will give you the time in that countries timezone or timezones\n. ')
+                   
+                elif answer == 'weather':
+                    answered2 = True
+                    print('\nBot: Give me a country name and I will give you the weather currently in that country\n')
+                   
+                elif answer == 'web browser':
+                    answered2 = True
+                    print('\nBot: Give me a item to search for and I will display the first five results\n')    
+                                       
+                elif answer == 'alarms':
+                    answered2 = True
+                    print('\nBot: Give me a time in which you want the alarm to go off\n')    
+                   
+                elif answer == 'go back':
+                   
+                    break  
+                   
+                else:
+                    print("\nBot: Sorry, I didn't understand that")
+               
+                if answered2 == True:
+                    print('\nBot: Is there anything else I can help you with?\n')
+                    for i in features:
+                        print(i)
+ 
+        elif answer == 'go back':
+            break
+        else:
+            print("\nBot: Sorry, I didn't understand that")
+       
+        if answered1 == True:
+                    print('\nBot: Is there anything else I can help you with?\n')
+                    for i in options:
+                        print(i)                
         
 def alarm():
     def check_alarm_input(alarm_time):
