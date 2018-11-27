@@ -19,18 +19,18 @@ coinList = ["coin", "heads", "tails"]
 shopList = ["shopping", "list"]
 featureList = ["info", "help", "features"]
 
-def greet(user):
+def greet(user):   """This function returns a random word in the greeList list to the user """
     randomGreet = choice(greetList).capitalize()
     print(" Bot: " + randomGreet + "!")
     return randomGreet
 
-def endFunction(user):
+def endFunction(user):   """This function returns a random word in the byeList list to the user and exits the program"""
     randomBye = choice(byeList).capitalize()
     print(" Bot: " + randomBye + "!") 
     exit = True
     return exit
 
-def googleSearch(custom, after):
+def googleSearch(custom, after):   """This function takes a user inputted term and uses the googleSearch module to return the top 5 google search results for said term """
     if after == False:       
         term = input(" Bot : What would you like to search?\n User: ")
     else:
@@ -75,7 +75,7 @@ def checkTimeZone():
         print(" Bot: The current time in {a} is {b}".format(a=term.title(),b=timegot[11:16]))
     return term
 
-def diceRoll(number):
+def diceRoll(number):   """This function takes a user inputted number and returns a random number between 1 and the inputted number """
     if number >= 1:
         roll = randint(1,number)
     else:
@@ -131,7 +131,7 @@ def emailFunction():
         
         server.quit()
         
-def coin(userGuess):
+def coin(userGuess):   """This function returns a random word from the list and comapres it to a user inputted word to see if they guessed correctly """
     side = choice(["Heads", "Tails"])
     if userGuess == side:
         print(" Bot: You guessed correctly! The coin landed " + side + " side up")
