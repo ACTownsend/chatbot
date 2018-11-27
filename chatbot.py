@@ -1,17 +1,17 @@
-from functions import *
+from functions import *    #All the functions are kept in a separate file to help abstract the code
 
 
 user = input(" Bot: Welcome to chatbot! How may I help you?\n User: ")
 user = user.lower()
 exit = False
 after = False
-ran = 0
+ran = 0     #These two variables are used to determine if any of the functions have been ran 
 should = 0 
-while exit == False:
+while exit == False:      #The code is ran until one of the exit words are triggered
     should += 1
-    split = user.split(" ")    
+    split = user.split(" ")    #Splits the user input into a list so that we can search for key terms to trigger functions
     for i in split:
-        if i in greetList:
+        if i in greetList:      #No switch cases in python so if statements will have to do
             ran = should
             greet(user)
         elif i in byeList:
@@ -19,7 +19,7 @@ while exit == False:
             exit = endFunction(user)           
         elif i in browserList:
             ran = should 
-            if i != split[-1]:
+            if i != split[-1]:            #Checks to see if the user has already specified what they would like to google
                 after = True
                 split = user.split(i)
                 term = split[1]
@@ -35,7 +35,7 @@ while exit == False:
             weather()            
         elif i in dieList:
             ran = should 
-            if "d" in user:
+            if "d" in user:          #Checks to see if the user has already specified which die they would like to roll
                 dice = user.index("d")
                 dice+=1
                 if user[dice].isdigit():
@@ -65,10 +65,10 @@ while exit == False:
         elif i == "alarm":
             ran = should
             alarm()
-        if ran == should:
-            break
+        if ran == should:       #This IF statement was implemented to make it so that if the user enters more than one of the keywords
+            break               #to trigger a function, it will not run twice
     if exit == False:
-        if ran != should:
+        if ran != should:       #Using the two aforementioned variables to check if a function has been ran
             print(" Bot: Sorry, I didnt quite catch that!")
         user = input(" Bot: Anything else I can help you with?\n User: ")
     else:
