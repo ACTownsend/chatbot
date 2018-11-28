@@ -223,21 +223,22 @@ def listOfFeatures():
                         print(i)                
         
 def alarm():
-    def check_alarm_input(alarm_time):
-        if len(alarm_time) == 1:
+    def check_alarm_input(alarm_time): #function to see if the user has entered in a valid alarm time 
+        if len(alarm_time) == 1:#[Hour] Format
             if alarm_time[0] < 24 and alarm_time[0] >= 0:
                 return True
-        if len(alarm_time) == 2:
+        if len(alarm_time) == 2:#[Hour:Minute] Format
             if alarm_time[0] < 24 and alarm_time[0] >= 0 and alarm_time[1] < 60 and alarm_time[1] >= 0:
                 return True
-        elif len(alarm_time) == 3:
+        if len(alarm_time) == 3:#[Hour:Minute:Second] Format
             if alarm_time[0] < 24 and alarm_time[0] >= 0 and alarm_time[1] < 60 and alarm_time[1] >= 0 and alarm_time[2] < 60 and alarm_time[2] >= 0:
                 return True
         return False
- 
+ #Get the user to input a note when the alarm goes off
     note = str(input(" Bot: What note do you want to leave when the alarm goes off?\n User: " ))
     print(" Bot: Set a time for the alarm (Ex. 06:30 or 18:30:00)")
     while True:
+        #Get the user to inputa valid alarm time (this loop is going to repeat untill the user gets the format right)
         alarm_input = input(" Bot: Enter a time that you would like to set an alarm for\n User: ")
  
         try:
@@ -248,28 +249,22 @@ def alarm():
             raise ValueError
         except ValueError:
           print(" Bot: !ERROR! Enter time in HH:MM or HH:MM:SS format")
- 
+ #Convert the alarm time from hours to seconds and minutes to seconds
     seconds_hms = [3600, 60, 1]
     alarm_seconds = sum([a*b for a,b in zip(seconds_hms[:len(alarm_time)], alarm_time)])
- 
+ #Get the current time of day in seconds
     now = datetime.datetime.now()
     current_time_seconds = sum([a*b for a,b in zip(seconds_hms, [now.hour, now.minute, now.second])])
- 
+ #Calculate the number of seconds until the alarm goes off
     time_diff_seconds = alarm_seconds - current_time_seconds
- 
+ #If the user types an hour that as passed already, set the alarm for the next day
     if time_diff_seconds < 0:
         time_diff_seconds += 86400
- 
+ #Displays the amount of time until the alarm goes off
     print(" Bot: Alarm set to go off in %s" % datetime.timedelta(seconds=time_diff_seconds))
  
- 
+ #Wait until the alarm goes off
     time.sleep(time_diff_seconds)
  
- 
+ #Displays the note, and the alarm goes off
     print("\n     " + note +"\n")
-      
-   
-        
-
-    
-    
