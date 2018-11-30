@@ -1,0 +1,94 @@
+import geocoder
+import requests
+g = geocoder.ip('me')
+print(g.latlng)
+
+~~~~~
+
+from random import *
+from functions import *
+
+
+
+
+user = input(" Bot: Welcome to chatbot! How may I help you?\n User: ")
+user = user.lower()
+exit = False
+greetonce = False
+specialexit = True
+while (exit == False) or (greetonce == False):
+    user = user.split(" ")
+
+    for i in user:
+        if i in greetings:
+            resp = greet(user)
+            user = input(" Bot: " + resp + "! What can I do for you?\n User: ")        
+            greetonce = True
+            Specialexit = False
+                      
+        elif i in hweather:
+                resp = hotweather(user)
+                user = print(" Bot: " + "It is quite " + resp + " today!") 
+                user = input(" What else can I do for you?\n User: ")   
+                exit = False
+        
+        elif i in farewell:
+            resp = endFunction(user)
+            user = print(" Bot: " + resp + "!") 
+            exit = True
+            
+        elif i in joke:
+            resp = jokeFunction(user)
+            user = print(" Bot: " + resp + "!") 
+            user = input(" What else can I do for you?\n User: ") 
+            exit = True
+       
+        else:
+            user = input(" Bot: Sorry I didn't quite catch that!\n User: ")
+            exit = False
+            
+
+~~~~~
+
+file = open("todolist.txt", "w")
+
+content = input("Write a task that you have for today:")
+##file.write(content)
+ans = input("Any more tasks for today?").upper()
+
+if ans == "YES":
+    askagain = input("another task?")
+    file.write(content + "\n" + askagain)
+    file = open("todolist.txt", "r")
+    print(file.readline())
+    
+elif ans == "NO":
+    file = open("todolist.txt", "r")
+    print(file.readline())
+    file.close()
+    
+    ~~~~
+    
+from random import *
+
+greetings = ["hello", "hi", "hey", "yo"]
+farewell  = ["goodbye", "cya later", "bye", "cya", "later"]
+hweather  = ["hot", "boiling", "warm", "steaming"]
+joke      = ["Q: What does a nosey pepper do? A: Gets jalapeno business!", "Q: What do you call a fake noodle? A: An Impasta", "Q: What do lawyers wear to court? A: Lawsuits!"]
+
+def greet(user):
+    randomGreet = choice(greetings).capitalize()
+    return randomGreet
+
+def endFunction(user):
+    randomBye = choice(farewell).capitalize()
+    return randomBye
+             
+def hotweather(user):
+    randomHweather = choice(hweather).capitalize()
+    return randomHweather
+
+def jokeFunction(user):
+    randomJoke = choice(joke).capitalize()
+    return randomJoke
+   
