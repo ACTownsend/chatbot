@@ -62,6 +62,12 @@ while exit == False:      #The code is ran until one of the exit words are trigg
         elif i in featureList:
             ran = should
             listOfFeatures()
+        elif i in imdbList:
+             ran = should
+             movieSearch()
+        elif i in holidayList:
+            ran = should
+            holidayCheck()    
         elif i == "alarm":
             ran = should
             alarm()
