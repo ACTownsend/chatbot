@@ -7,6 +7,8 @@ import smtplib
 import datetime
 import os
 import time
+import imdb
+import holidays
 
 greetList = ["hello", "hi", "hey", "yo"]
 byeList = ["goodbye", "cya later", "bye", "cya", "later"]
@@ -18,6 +20,8 @@ emailList = ["email", "send"]
 coinList = ["coin", "heads", "tails"]
 shopList = ["shopping", "list"]
 featureList = ["info", "help", "features"]
+imdbList = ["movies", "movie", "film", "television", "tv"]
+holidayList = ["holidays", "holiday"]
 
 def greet(user):   """This function returns a random word in the greeList list to the user """
     randomGreet = choice(greetList).capitalize()
@@ -59,21 +63,27 @@ def weather():
     print(' Bot: Today is expected in  '+ city + ' ' + formatted_data)
     print(' Bot: The temperature is ',round(tempc,2),'°C')
     return tempc
-
+    
 def checkTimeZone():
-    term = input(" Bot: Enter a country name and I'll tell you the time in that country\n User: ")
-    print(" Bot: Please wait...")
+    
+    '''Tells the time in a given country'''
+    
+    #gets country name from user
+    search = input('Bot: Enter a country name and I will tell you the time in that country\n User:')
+    
     try:
-        countinfo = pycountry.countries.get(name=term.title())
+        #turns country name into country code
+        countinfo = pycountry.countries.get(name=search.title())
         countcode = countinfo.alpha_2
         countzone = pytz.country_timezones(countcode)
     except:
-        print(" Bot: Sorry, I don't recognise the name of that country")
+        #triggers if input not recognised as a country name
+        print('Bot: Sorry, I do not recognise the name of that country')
     else:
-        timereq = requests.get("http://api.timezonedb.com/v2.1/get-time-zone?key=A56Y2B25QKH8&format=json&by=zone&zone={}".format(countzone[0])).json()
+        #finds and prints time using country code
+        timereq = requests.get('http://api.timezonedb.com/v2.1/get-time-zone?key=A56Y2B25QKH8&format=json&by=zone&zone={}'.format(countzone[0])).json()
         timegot = timereq["formatted"]
-        print(" Bot: The current time in {a} is {b}".format(a=term.title(),b=timegot[11:16]))
-    return term
+        print('Bot: The current time in {a} is {b}'.format(a=search.title(),b=timegot[11:16]))
 
 def diceRoll(number):   """This function takes a user inputted number and returns a random number between 1 and the inputted number """
     if number >= 1:
@@ -163,53 +173,83 @@ def shoppingList():
     print (file.read())
     
 def listOfFeatures():
-     options = ['features','go back']
-    features = ['timezone','web browser','alarms','weather','go back']
- 
+    
+    '''Displays info on functions the chatbot can perform'''
+    
+    options = ['features','go back']
+    features = ['time zone','web browser','alarms','weather','holidays','movies','go back']
+
     print('Bot: What can I help you with?')
     for i in options:
         print(i)
-   
+    
+    #runs until user selects the 'go back' option
     while True:
         answer = input('\nUser: ').lower()
         answered1 = False
-       
+        
+        #shows list of documented chatbot features
         if answer == 'features':
             answered1 = True
             print('\nBot: Which feature can I tell you more about?\n')
             for i in features:
                 print(i)
-               
+            
+            #runs until user selects the 'go back' option
             while True:
                 answer = input('\nUser: ').lower()
                 answered2 = False
-               
-                if answer == 'timezone':
+                
+                #displays info on timezone function
+                if answer == 'time zone':
                     answered2 = True
-                    print('\nBot: Give me a country name and I will give you the time in that countries timezone or timezones\n. ')
-                   
+                    print('\nBot: Give me a country name and I will give you the time in its time zone.\n')
+                
+                #displays info on weather function
                 elif answer == 'weather':
                     answered2 = True
                     print('\nBot: Give me a country name and I will give you the weather currently in that country\n')
-                   
+                
+                #displays info on web browser function
                 elif answer == 'web browser':
                     answered2 = True
                     print('\nBot: Give me a item to search for and I will display the first five results\n')    
-                                       
+                
+                #displays info on alarms function
                 elif answer == 'alarms':
                     answered2 = True
-                    print('\nBot: Give me a time in which you want the alarm to go off\n')    
-                   
+                    print('\nBot: Give me a time in which you want the alarm to go off\n')
+										
+								#displays info on holidays function
+                elif answer == 'holidays':
+                    answered2 = True
+                    print('\nBot: Give me a date and I will tell you if a holiday occurs on it\n')
+								
+							  #displays info on movies function
+                elif answer == 'movies':
+                    answered2 = True
+                    print('\nBot: Give me a search term and I will find any movies related to it for you\n')
+                    
                 elif answer == 'go back':
                    
-                    break  
-                   
+                    break   
+                    
                 else:
-                    print("\nBot: Sorry, I didn't understand that")
-               
+                    print('\nBot: Sorry, I did not understand that')
+                
                 if answered2 == True:
                     print('\nBot: Is there anything else I can help you with?\n')
                     for i in features:
+                        print(i)
+
+        elif answer == 'go back':
+            break
+        else:
+            print('\nBot: Sorry, I did not understand that')
+        
+        if answered1 == True:
+                    print('\nBot: Is there anything else I can help you with?\n')
+                    for i in options:
                         print(i)
  
         elif answer == 'go back':
@@ -221,7 +261,89 @@ def listOfFeatures():
                     print('\nBot: Is there anything else I can help you with?\n')
                     for i in options:
                         print(i)                
+
+def holidayCheck():
+    
+    '''Checks if any UK holidays occur on a given date'''
+    
+    uk_hols = holidays.UnitedKingdom()
+    
+    #runs until a valid date is given or user says to stop
+    while True:
         
+        user  = input('\nBot: Please enter a date to check if any UK holidays occur on that day\n\nUser: ')
+        
+        try:
+            
+            #checks if a holiday occurs on date given
+            if user in uk_hols:
+        
+                print('Bot: {}'.format(uk_hols.get(user)))
+                break
+        
+            else:
+        
+                print('\nBot: No UK holidays occur on this date')
+                break
+            
+        except:
+            
+            #runs if date given is invalid
+            print('\nBot: Sorry, I do not recognise that date!')
+            
+            #runs until Y or N is inputted
+            while True:
+                
+                user = input('\nBot: Try another date or go back? Enter Y or N to decide\n\nUser:')
+                
+                if user.upper() == 'Y' or user.upper() == 'N':
+                        
+                    break
+                        
+                else:
+                        
+                    print('\nBot: Sorry, I did not understand that!')
+                        
+        if user.upper() == 'N':
+            
+            break
+		
+	
+def movieSearch():
+    
+    '''Returns a list of movies related to user search'''
+    
+    #runs until user says to stop
+    while True:
+        
+        #gets string to search with from user
+        user = input('\nBot: Enter a keyword and I will find any movies/tv shows related to it!\n\nUser: ')
+        
+        #searches IMDb database and prints list of results
+        search = imdb.IMDb().search_movie(user)
+        print('\nBot: This is what I found -\n')
+            
+        for i in search:
+    
+            print(i['long imdb title'].replace('"',''))
+        
+        #asks user if they want to search again or stop function
+        while True:
+            
+            user = input('Bot: Would you like to search for anything else? Enter Y or N to decide\n\nUser:')
+            
+            if user.upper() == 'Y' or user.upper() == 'N':
+                        
+                break
+                        
+            else:
+                        
+                print('\nBot: Sorry, I did not understand that!')
+                        
+        if user.upper() == 'N':
+
+            break
+
 def alarm():
 """This fucntions is used to set an alarm on"""
     def check_alarm_input(alarm_time): 
