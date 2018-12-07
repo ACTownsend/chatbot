@@ -13,10 +13,10 @@ while exit == False:      #The code is ran until one of the exit words are trigg
     for i in split:
         if i in greetList:      #No switch cases in python so if statements will have to do
             ran = should
-            greet(user)
+            greet()
         elif i in byeList:
             ran = should
-            exit = endFunction(user)           
+            exit = endFunction()           
         elif i in browserList:
             ran = should 
             if i != split[-1]:            #Checks to see if the user has already specified what they would like to google
@@ -62,15 +62,15 @@ while exit == False:      #The code is ran until one of the exit words are trigg
         elif i in featureList:
             ran = should
             listOfFeatures()
-        elif i in imdbList:
-             ran = should
-             movieSearch()
-        elif i in holidayList:
-            ran = should
-            holidayCheck()    
         elif i == "alarm":
             ran = should
             alarm()
+        elif i in imdbList:
+            ran = should
+            movieSearch()
+        elif i in holidayList:
+            ran = should
+            holidayCheck()            
         if ran == should:       #This IF statement was implemented to make it so that if the user enters more than one of the keywords
             break               #to trigger a function, it will not run twice
     if exit == False:
@@ -79,10 +79,3 @@ while exit == False:      #The code is ran until one of the exit words are trigg
         user = input(" Bot: Anything else I can help you with?\n User: ")
     else:
         break
-
-
-
-
-    
-
-    
