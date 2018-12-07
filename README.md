@@ -6,6 +6,6 @@ THINGS TO IMPORT:
 2)  requests
 3)  pytz
 4)  pycountry
-5.  imdb
+5.  IMDbPY
 6.  holidays
 7.  time
